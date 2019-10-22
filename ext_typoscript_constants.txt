@@ -1,0 +1,14 @@
+
+
+# cat=plugin.tx_pobdir_pi1/file/;type=file[html,htm,tmpl,txt]; label=Template File: Used to render the Output.
+pobdir_templateFile = EXT:pobdir/pi1/template.htm
+
+# cat=plugin.tx_pobdir_pi1//; type=string; label= Einträge auf einer Seite
+pobdir_itemsPerPage = 10
+
+# cat=plugin.tx_pobdir_pi1/typo; type=color; label= Farbe für aktive Punkte
+pobdir_active = #CC0000
+
+# cat=plugin.tx_pobdir_pi1/typo; type=color; label= Farbe für inaktive Punkte
+pobdir_inactive = #999999
+

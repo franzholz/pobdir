@@ -1,0 +1,155 @@
+<?php
+/**
+ * Language labels for plugin "user_directory_pi1"
+ * 
+ * This file is detected by the translation tool.
+ */
+ 
+$LOCAL_LANG = Array (
+	"default" => Array (
+		"list_mode_1" => "Mode 1",	
+		"list_mode_2" => "Mode 2",	
+		"list_mode_3" => "Mode 3",	
+		"submit_button_label" => "Click here to submit value",	
+		"yourentry" => "Your Entry",
+		"name" => "Name",
+		"street" => "Street",
+		"zip" => "ZIP",
+		"city" => "City",
+		"tel" => "Phone",
+		"fax" => "Fax",
+		"mobil" => "Mobile",
+		"email" => "Email",
+		"www" => "Homepage",
+		"image" => "Image(JPG,GIF,PNG, max. 200kb",
+		"new_image" => "Replacement Image(JPG,GIF,PNG, max. 200kb",
+		"profile" => "Profile",
+		"submit" => "Submit",
+		"error" => "Please check the marked fields.",
+		"category" => "Category",
+		"page" => "Page",
+		"your_entry" => "Your Entry",
+		"edit_your_entry" => "Edit Your Entry",
+		"edit_delete" => "Edit/Delete",
+		"delete" => "Delete Entry?",
+		"all" => "all",
+		"search" => "Search",
+		"category" => "Category",
+		"back" => "back",
+		"print" => "print",
+		"details" => "Details",
+		"sorry" => "There is no entry matching your query. Please try again.",
+		"thanks" => "Thanks for your submission.",
+		"listheader_1" => "Name und Adress",
+		"listheader_2" => "Map",
+		"listheader_3" => "Description",
+		"listheader_4" => "Cost per night and room<br />including breakfeast in &euro;",
+    "showall" => "Show All",
+    "showfree" => "Filter",
+    "pikto[0]" => "",
+    "pikto[1]" => "Allergiker",
+		"pikto[2]" => "Einrichtungen für Behinderte",
+		"pikto[3]" => "Fahrradunterstand",
+		"pikto[4]" => "Hauseigener Parkplatz",
+		"pikto[5]" => "Garten",
+		"pikto[6]" => "Hunde nicht erlaubt",
+		"pikto[7]" => "Nichtraucher",
+		"pikto[8]" => "Kinderfreundlich",
+		"pikto[9]" => "Zimmer mit Balkon oder Terasse",		
+		"pikto[10]" => "Internet",
+		"capacity" => "1",
+		"email_subject" => "Onlineanfrage www.Diessen.de",
+		"email_body" => "Wir haben Ihr Angebot im Diessener Internet gefunden und interessieren uns dafür.",
+	),
+	"dk" => Array (
+		"list_mode_1" => "Visning 1",	
+		"list_mode_2" => "Visning 2",	
+		"list_mode_3" => "Visning 3",	
+	),
+	"de" => Array (
+		"yourentry" => "Ihr Eintrag",
+		"name" => "Name",
+		"street" => "Strasse",
+		"zip" => "PLZ",
+		"city" => "Ort",
+		"tel" => "Tel",
+		"fax" => "Fax",
+		"mobil" => "Mobil",
+		"email" => "E-Mail",
+		"www" => "Webseite",
+		"image" => "Bild(JPG,GIF,PNG, max. 200kb)",
+		"new_image" => "Austauschbild(JPG,GIF,PNG, max. 200kb)",
+		"profile" => "Beschreibung",
+		"submit" => "Abschicken",
+		"error" => "Bitte überprüfen Sie die markierten Felder.",
+		"category" => "Kategorie",
+		"page" => "Seite",
+		"your_entry" => "Ihr Eintrag",
+		"edit_your_entry" => "Eintrag bearbeiten",
+		"edit_delete" => "Ändern/Löschen",
+		"delete" => "Eintrag löschen?",
+		"all" => "alle jetzt",
+		"search" => "Suche",
+		"category" => "Kategorie",
+		"back" => "Zur&uuml;ck",
+		"print" => "Drucken",
+		"details" => "Details",	
+		"sorry" => "Leider wurden keine Treffer zu Ihrer Suche gefunden.",	
+		"thanks" => "Vielen Dank für Ihren Eintrag.",
+		"listheader_1" => "Vermieter",
+		"listheader_2" => "Lagepl.",
+		"listheader_3" => "Beschreibung",
+		"listheader_4" => "Preis/Nacht in &euro;",
+		"showall" => 'Alle anzeigen',
+		"showfree" => 'Suchen',
+		"pikto[0]" => "",
+    "pikto[1]" => "Allergiker",
+		"pikto[2]" => "Einrichtungen für Behinderte",
+		"pikto[3]" => "Fahrradunterstand",
+		"pikto[4]" => "Hauseigener Parkplatz",
+		"pikto[5]" => "Garten",
+		"pikto[6]" => "Hunde nicht erlaubt",
+		"pikto[7]" => "Nichtraucher",
+		"pikto[8]" => "Kinderfreundlich",
+		"pikto[9]" => "Zimmer mit Balkon oder Terasse",
+		"pikto[10]" => "Internet",
+		"capacity" => "1",
+		"email_subject" => "Onlineanfrage www.Diessen.de",
+		"email_body" => "Wir haben Ihr Angebot im Diessener Internet gefunden und interessieren uns dafür.",		
+	),
+	"no" => Array (
+	),
+	"it" => Array (
+	),
+	"fr" => Array (
+	),
+	"es" => Array (
+	),
+	"nl" => Array (
+	),
+	"cz" => Array (
+	),
+	"pl" => Array (
+	),
+	"si" => Array (
+	),
+	"fi" => Array (
+	),
+	"tr" => Array (
+	),
+	"se" => Array (
+	),
+	"pt" => Array (
+	),
+	"ru" => Array (
+	),
+	"ro" => Array (
+	),
+	"ch" => Array (
+	),
+	"sk" => Array (
+	),
+	"lt" => Array (
+	),
+);
+?>

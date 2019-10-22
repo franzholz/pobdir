@@ -1,0 +1,419 @@
+<HTML>
+<BODY text=#000000 vLink=#003399 aLink=#333333 link=#003399 bgColor=#FFFFFF leftMargin=100 topMargin=100 marginheight="100" marginwidth="100">
+<!--###TEMPLATE###-->
+<!--###TOPVIEW###-->           
+<script type="text/javascript" src="typo3conf/ext/pobdir/js/calendar.js"></script>
+<script type="text/javascript" src="typo3conf/ext/pobdir/js/calendar-de.js"></script>
+<script type="text/javascript" src="typo3conf/ext/pobdir/js/calendar-setup.js"></script>
+<script type="text/javascript">
+  
+function frm_showfree_submit() {
+  
+  var Fehler = "Bitte korrigieren Sie Ihre Eingaben:\n\n";
+  var now = new Date();
+  var m0 = now.getMonth()+1;
+  var d0 = now.getDate();
+  var y0 = now.getFullYear();
+  var heute = Date.parse(m0 + "/" + d0 + "/" + y0);
+  
+  if(document.getElementById('tx_pobdir_pi1[showfree_anreise]')) {
+    var s1 = document.getElementById('tx_pobdir_pi1[showfree_anreise]').value.split(".");
+    var d1 = parseInt(s1[0], 10);
+    var m1 = parseInt(s1[1] || 0, 10);
+    var y1 = parseInt(s1[2] || 0, 10);
+    var date1  = Date.parse(m1 + "/" + d1 + "/" + y1);
+    if ( date1 < heute ) Fehler+="\nAnreisedatum ist bereits Vergangenheit!\n";
+    if(((date1-heute)/1000/60/60/24)>365){
+      if (confirm("Sie haben das Jahr "+y1+" eingegeben!\n\nSind Sie sicher?") == false) return false;
+    }
+  }
+  
+  if(document.getElementById('tx_pobdir_pi1[showfree_abreise]')) {
+    var s2 = document.getElementById('tx_pobdir_pi1[showfree_abreise]').value.split(".");
+    var d2 = parseInt(s2[0], 10);
+    var m2 = parseInt(s2[1] || 0, 10);
+    var y2 = parseInt(s2[2] || 0, 10);
+    var date2  = Date.parse(m2 + "/" + d2 + "/" + y2);
+    if ( date2 < heute ) Fehler+="\nAbreisedatum ist bereits Vergangenheit!\n";
+  }
+  
+  if(document.getElementById('tx_pobdir_pi1[showfree_anreise]')&&document.getElementById('tx_pobdir_pi1[showfree_abreise]')) {
+    if ( date2 < date1 )
+      Fehler+="\nAbreisedatum darf nicht VOR Anreisedatum liegen!\n";
+    if((date2-date1)>31536000000)
+      Fehler+="\nMaximaler Buchungzeitraum 1 Jahr!\n";
+    if ( date2 == date1 )
+      Fehler+="\nAnreisetag darf nicht Abreisetag sein!\n";
+  }
+  
+  if(Fehler!="Bitte korrigieren Sie Ihre Eingaben:\n\n"){
+    alert(Fehler);
+    return false;
+  };
+  
+  frm_showfree.submit();
+}
+   
+function toggle_erweiterte_suche() {
+  if(document.getElementById('erweiterte_suche').className == 'pobdir_visible'){
+    document.getElementById('erweiterte_suche').className = 'pobdir_hidden';
+  }
+  else {
+    document.getElementById('erweiterte_suche').className = 'pobdir_visible';
+  } 
+}
+
+function popupCenterWindow(url, w, h) {
+  var parameter="";
+  var breite = screen.availWidth;
+  var hoehe = screen.availHeight;
+  var fensterbreite = w;
+  var fensterhoehe = h;
+  var pos_x = (breite/2)-(fensterbreite/2);
+  var pos_y = (hoehe/2)-(fensterhoehe/2);
+  parameter  = "width=" + fensterbreite + ",height=" + fensterhoehe + ",";
+  parameter += "left=" + pos_x + ",top=" + pos_y;
+  parameter += "resizable=yes,scrollbars=no,status=no,";
+  parameter += "menubar=no,toolbar=no,location=no,directories=no";
+  var Fenster = window.open(url,"PopUp",parameter);
+  if (Fenster) Fenster.focus();
+}
+</script>
+          
+<table border="0" cellpadding="0" cellspacing="7">
+  <tr> 
+    <td bgcolor="#F4F4F4" valign="MIDDLE" class="pobdir-border1">
+    <form name='frm_showfree' action='' method='get'> 
+      <table cellspacing="0" cellpadding="0">
+      <colgroup>
+        <col width="100px">
+        <col width="100px">
+        <col width="100px">
+        <col width="30px">
+        <col width="40px">
+        <col width="40px">
+        <col width="150px">
+      </colgroup>
+        <tr> 
+          <td align="left" style="padding-left:10px;line-height:40px;">###ALLE###</td>
+          <td align="right" valign="MIDDLE"><font face="Arial">Suche nach&nbsp;&nbsp;</font></td>
+          <td align="right" valign="MIDDLE">###KATEGORIE###</td>
+          <td><font face="Arial">&nbsp;&nbsp;f&uuml;r</font></td>
+          <td  align="right" valign="MIDDLE">###PERSONEN###</td>
+          <td><font face="Arial">&nbsp;&nbsp;Personen</font></td>
+          <td align="right" style="padding-right:10px;">###SUCHE###</td>
+        </tr>
+        
+        <tr>
+          <td colspan="7" align="center" style="line-height:40px;">
+          <hr class="pobdir_grad" />
+          <div>
+          
+          <input type="hidden" name="no_cache" value="1">
+          <!-- RL 26.07.2017 11:10:11
+          Anreise: <input type="text" name="tx_pobdir_pi1[showfree_anreise]" id="tx_pobdir_pi1[showfree_anreise]" value="###SELECTED_ANREISE###" class="pobdir_datum">
+          <span style="margin-left:20px;">&nbsp;</span>
+          Abreise: <input type="text" name="tx_pobdir_pi1[showfree_abreise]" id="tx_pobdir_pi1[showfree_abreise]" value="###SELECTED_ABREISE###" class="pobdir_datum">
+          
+          <br> ###FREIE###
+          -->
+          <input type="hidden" name="tx_pobdir_pi1[cat]" value="###SELECTED_KATEGORIE###">
+          <input type="hidden" name="tx_pobdir_pi1[cap]" value="###SELECTED_PERSONEN###">
+          <input type="hidden" name="tx_pobdir_pi1[pointer]" value="0">
+          <input type="hidden" name="tx_pobdir_pi1[mode]" value="liste">
+          <input type="hidden" name="tx_pobdir_pi1[modifier]" value="free">
+          <input type="hidden" name="tx_pobdir_neu" value="1">
+          <!-- RL 26.07.2017 11:05:41
+          <span style="cursor:pointer;" onclick="toggle_erweiterte_suche()" title='Klicken Sie hier, um auch nach Ausstattung zu suchen'>(hier mehr Suchoptionen &ouml;ffnen)</span>
+          -->
+          </div>
+          </td>
+        </tr>
+        <!--  RL 26.07.2017 11:06:22
+        ###ERWEITERTE_SUCHE###
+        -->          
+      </table>
+      </form>
+      
+      <script type="text/javascript">
+      /* RL 26.07.2017 11:10:04
+      function catcalc(cal) {
+          var date = cal.date;
+          var time = date.getTime()
+          var field = document.getElementById("tx_pobdir_pi1[showfree_abreise]");
+          if (field == cal.params.inputField) {
+              field = document.getElementById("tx_pobdir_pi1[showfree_anreise]");
+              time -= Date.WEEK; // substract one week
+          } else {
+              time += Date.WEEK; // add one week
+          }
+          var date2 = new Date(time);
+          field.value = date2.print("%d.%m.%Y");
+      }
+      Calendar.setup({
+          inputField     :    "tx_pobdir_pi1[showfree_anreise]",
+          ifFormat       :    "%d.%m.%Y",
+          onUpdate       :    catcalc
+      });
+      Calendar.setup({
+          inputField     :    "tx_pobdir_pi1[showfree_abreise]",
+          ifFormat       :    "%d.%m.%Y"
+      });
+      */
+      </script>      
+    </td>
+  </tr>
+  <!--###TOPVIEW###-->
+  <!--###LISTHEADER###-->
+  <tr>
+    <td>
+      <table width="620" cellspacing="0" cellpadding="3">
+      <colgroup>
+        <col width="250px">
+        <col width="195px">
+        <col width="165px">
+      </colgroup>
+      <tr style='line-height:32px;'>
+      <td class='pobdir-listheader pobdir-small'>###SPALTE_1###</td>
+      <td class='pobdir-listheader pobdir-small'>###SPALTE_3###</td>
+      <td class='pobdir-listheader pobdir-small' style='text-align:right;'>###SPALTE_4###</td>
+      </tr>
+      </table>
+    </td>
+  </tr>
+  <!--###LISTHEADER###-->
+  <!--###LISTVIEW###-->
+  <tr> 
+    <td>
+      <table width="620" border="0" cellspacing="0" cellpadding="3" class="tx_pobdir-pi1-dotted ###TBL_BG_CLASS###">
+      <colgroup>
+        <col width="100px">
+        <col width="180px">
+        <col width="330px">
+        <col width="162px">
+      </colgroup>        
+        <tr> 
+          <td rowspan="3" valign="top" style="padding-top:10px;">###BILD_1###</td>
+          <td rowspan="2">
+          <strong>###NAME###</strong><br>
+          <div  class="pobdir-small">
+            ###STRASSE###<br>
+            ###PLZ### ###ORT###<br>
+            ###TEL###<br>
+            ###EMAIL###<br>
+            ###WWW###
+          </div>
+          </td>
+          <td class="pobdir-small" valign='top'>###KATEGORIE######PERSONEN###<br>###BESCHREIBUNG###</td>
+          <td class="pobdir-small" valign="top">###PRICE###</td>
+        </tr>
+        <tr>  
+          <td class="pobdir-small"></td>
+          <td class="pobdir-small"><span style="margin-bottom:5px;">###PIKTOS###</span></td>
+          <td class="pobdir-small">###PREISINFO###</td>
+        </tr>            
+      </table>
+    </td>
+  </tr>
+  <!--###LISTVIEW###-->
+  <!--###BOTTOMVIEW###-->
+  <tr style="line-height:40px"> 
+    <td class="pobdir-border1" align="center" bgcolor="#F4F4F4"><font face="Arial">###SEITEN###</font></td>
+  </tr> 
+</table>
+
+<!--###BOTTOMVIEW###-->
+
+<!--###SINGLEVIEW###-->
+
+   <table width="620" cellpadding="7" cellspacing="0" class="tx_pobdir-pi1-dotted" border="0">
+    
+    <colgroup>
+    <col width="100px">
+    <col width="250px;">
+    <col width="*">
+    </colgroup>
+    
+      <tr>
+        <td rowspan="2" valign="top" style="padding-top:20px">###BILD_1###</td>
+        <td class="pobdir-mid" style="padding-top:20px;" valign="top">
+          <span class="pobdir-bigger" valign="top">###NAME###</span><br>
+          ###STRASSE###<br>
+          ###PLZ### ###ORT###<br>
+          ###TEL###<br>
+          ###EMAIL###<br>
+          ###WWW###
+        </td>
+        <td class="pobdir-mid" style="padding-top:20px;" valign="top">
+          <span class="pobdir-bigger">###KATEGORIE###<br>###PERSONEN###</span><br>
+          ###PRICE###<br>
+          ###PREISINFO###<br>
+          ###MAP###<br>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">###PIKTOS###</td>
+      </tr>
+      <tr> 
+        <td colspan="3" class="pobdir-mid">###PROFILE###</td>
+      </tr>
+      
+      <tr>
+      <td colspan="3" align="center" style="border-top:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5">
+        <table>
+          <tr>
+            <td>###BILD_2###</td>
+            <td>###BILD_3###</td>
+            <td>###BILD_4###</td>
+            <td>###BILD_5###</td>
+          </tr>
+        </table>
+      </td>
+      </tr>
+      
+      <tr>
+        <td colspan="3" align="center">###WERBUNG###</td>
+      </tr>
+      
+      <tr> 
+        <td colspan="3" height="32" align="center">&nbsp;</td>
+      </tr>
+      <tr> 
+        <td colspan="3" align="center" bgcolor="#F4F4F4">###FOOTER###</td>
+      </tr>
+        
+    </table> 
+
+<font face="Arial">
+<!--###SINGLEVIEW###-->
+<br>
+<br>
+<br>
+<br>
+<br>
+<!--###NOVIEW###-->
+  <tr> 
+    <td></font><table width="100%" border="0" cellspacing="0" cellpadding="3" class="tx_pobdir-pi1-dotted">
+      <tr> 
+        <td align="CENTER" height="100"><font face="Arial">###SORRY###</font></td>
+      </tr>
+    </table>
+      
+    <font face="Arial">
+      
+    </td>
+  </tr><!--###NOVIEW###-->
+<br>
+<br>
+<!--###ENTERVIEW###-->
+</font>
+<table width="100%" border="0" cellpadding="0" cellspacing="7">
+<form method="POST" action="###ACTION###" enctype="multipart/form-data">
+<tr>
+      <td bgcolor="#F4F4F4" height="22" align="CENTER"><font face="Arial">###YOURENTRY###</font></td>
+    </tr>
+  <tr> 
+    <td><table width="100%" border="0" cellpadding="7" cellspacing="0" class="tx_pobdir-pi1-dotted">
+          <tr> 
+            <td class="tx_pobdir-pi1-small"><font face="Arial">TEST ###NAME###</font><strong><font face="Arial">*<br>
+              <input name="tx_pobdir_pi1[name]" type="text"  value="###NAMEV###">
+              </font>
+              </strong></td>
+            <td align="right" class="tx_pobdir-pi1-small"> <table border="0" cellspacing="0" cellpadding="0">
+                <tr> 
+                  <td class="tx_pobdir-pi1-small"><font face="Arial">###CATEGORY###<br>
+                    ###SELECT### </font> </td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr> 
+            <td colspan="2" align="center"> <table border="0" cellspacing="0" cellpadding="6">
+                <tr> 
+                  <td width="34%" class="tx_pobdir-pi1-small">
+					<font face="Arial">###STREET###*<br> <input name="tx_pobdir_pi1[street]" type="text"  style="width:120px;" value="###STREETV###"> 
+                  </font> 
+                  </td>
+                  <td width="33%" class="tx_pobdir-pi1-small">
+					<font face="Arial">###TEL###<br> <input name="tx_pobdir_pi1[tel]" type="text" id="tel" style="width:120px;" value="###TELV###"> 
+                  </font> 
+                  </td>
+                  <td width="33%" valign="bottom" class="tx_pobdir-pi1-small">
+					<font face="Arial">###EMAIL###*<br> 
+                    <input name="tx_pobdir_pi1[email]" type="text" id="email" style="width:120px;" value="###EMAILV###"> 
+                  </font> 
+                  </td>
+                </tr>
+                <tr> 
+                  <td><table width="75%" border="0" cellspacing="0" cellpadding="0">
+                      <tr> 
+                        <td class="tx_pobdir-pi1-small">
+						<font face="Arial">###ZIP###*</font></td>
+                        <td class="tx_pobdir-pi1-small">
+						<font face="Arial">###CITY###*</font></td>
+                      </tr>
+                      <tr> 
+                        <td><font face="Arial"><input name="tx_pobdir_pi1[zip]" type="text" id="zip" style="width:40px;" value="###ZIPV###"></font></td>
+                        <td><font face="Arial"><input name="tx_pobdir_pi1[city]" type="text" id="city" style="width:80px;" value="###CITYV###"></font></td>
+                      </tr>
+                    </table></td>
+                  <td class="tx_pobdir-pi1-small"><font face="Arial">###FAX###<br> <input name="tx_pobdir_pi1[fax]" type="text" id="fax" style="width:120px;" value="###FAXV###"></font></td>
+                  <td valign="bottom" class="tx_pobdir-pi1-small">
+					<font face="Arial">###WWW###*<br> <input name="tx_pobdir_pi1[www]" type="text" id="www" style="width:120px;" value="###WWWV###"></font></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr> 
+            <td colspan="2" class="tx_pobdir-pi1-small">
+			<font face="Arial">###IMAGE###<br> <input name="tx_pobdir_pi1[image]" type="file" class="tx_pobdir-pi1-small"> 
+            </font> 
+            </td>
+          </tr>
+          <tr> 
+            <td colspan="2" class="tx_pobdir-pi1-small">
+			<font face="Arial">###PROFILE###<br> <textarea name="tx_pobdir_pi1[profile]" rows="10" id="profile" style="width:100%;">###PROFILEV###</textarea> 
+            </font> 
+            </td>
+          </tr>
+        </table></td>
+  </tr>
+  <tr> 
+      <td align="center" bgcolor="#F4F4F4"> 
+        <table border="0" cellspacing="0" cellpadding="3">
+          <tr>
+            <td align="CENTER"><font face="Arial">###ERROR######HIDDEN###
+              
+              <input type="submit" name="tx_pobdir_pi1[submit]" value="###SUBMIT###" class="tx_pobdir-pi1-small"></font></td>
+          </tr>
+        </table>
+      </td>
+  </tr></form>
+</table>
+<font face="Arial">
+<!--###ENTERVIEW###-->
+<br>
+<br>
+<!--###SUCCESSVIEW###-->
+</font>
+<table width="100%" border="0" cellpadding="0" cellspacing="7">
+  <tr> 
+    <td height="22" align="center" bgcolor="#F4F4F4"><font face="Arial">###YOURENTRY###</font></td>
+  </tr>
+  <tr> 
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="3" class="tx_pobdir-pi1-dotted">
+        <tr> 
+          <td height="200" align="center"> <font face="Arial">###THANKS###<br>
+            <br>
+            ###BACK### </font> </td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<font face="Arial">
+<!--###SUCCESSVIEW###-->
+<br>
+<br>
+<br>
+<!--###TEMPLATE###-->
+</font>
+</BODY>
+</HTML>
