@@ -53,7 +53,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
   
   public $dbg = 1;
   
-  function getKategorien() { 
+  public function getKategorien() { 
     
     $ressource  = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
       'uid, name',                        // SELECT
@@ -72,14 +72,14 @@ class tx_pobdir_pi1 extends tslib_pibase {
       
   }
   
-  function getKategorie($uid) {
+  public function getKategorie($uid) {
     foreach( $this->kategorien as $kat ) {
       if ( $kat['uid'] == $uid ) return $kat['name'];
     }
   }
   
   
-  function getPiktonames() {   
+  public function getPiktonames() {   
     
     $ressource  = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
       'uid, pikto, title',               // SELECT
@@ -98,28 +98,28 @@ class tx_pobdir_pi1 extends tslib_pibase {
       
   }
   
-  function getPiktoFileName($num) {
+  public function getPiktoFileName($num) {
     foreach( $this->piktos as $pikto ) {
       if ( $pikto['uid'] == $num ) return $pikto['pikto'];
     }     
   }
   
-  function getPiktoInfo($num) {   
+  public function getPiktoInfo($num) {   
     foreach( $this->piktos as $pikto ) {
       if ( $pikto['uid'] == $num ) return $pikto['title'];
     }  
   }
   
-  function getPathToPiktos() {
+  public function getPathToPiktos() {
     return $this->extHome . 'piktos/';
   }
   
-  function getPiktoImg($num) {   
+  public function getPiktoImg($num) {   
   
     return '<img src="' . $this->getPathToPiktos() . $this->getPiktoFileName($num) . '" title="' . $this->getPiktoInfo($num) . '" border="0" width="26" style="margin-right:2px;margin-top:2px;">';
   }
   
-  function getStarsImg($num) {
+  public function getStarsImg($num) {
       
     $num = (int)$num;
     
@@ -140,10 +140,10 @@ class tx_pobdir_pi1 extends tslib_pibase {
   }
   
 	
-	function getPiktos($csv) {
+	public function getPiktos($csv) {
 	
-	  $html = "";
-	
+	  $html = '';
+
 	  if ( strpos($csv, ',') ) {
     
       $features = explode(',',$csv);
@@ -189,7 +189,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
   }
 
 
-  function makeErweitereSuche() {
+  public function makeErweitereSuche() {
   
     $this->getPiktonames();
   
@@ -218,26 +218,26 @@ class tx_pobdir_pi1 extends tslib_pibase {
       if ( $i == 3 ) {
         $html .= '
       </tr>
-      <tr>";
+      <tr>';
         $i = 1;
       }
       
       if ( array_key_exists('filter_ausstattung', $this->piVars)) {
-        $checked = in_array($n, $this->piVars['filter_ausstattung']) ? " checked" : "";
+        $checked = in_array($n, $this->piVars['filter_ausstattung']) ? ' checked' : '';
       }
-      else $checked = "";
+      else $checked = '';
       
-      $html .= "
+      $html .= '
         <td><div style='width: 30px'>&nbsp;</div></td>
-        <td><input type='checkbox' name='tx_pobdir_pi1[filter_ausstattung][]' value='".$n."'".$checked."></td>
-        <td>".$this->getPiktoImg($n)."</td>
-        <td>".$this->getPiktoInfo($n)."</td>";
+        <td><input type="checkbox" name="tx_pobdir_pi1[filter_ausstattung][]" value="' . $n . '"' . $checked . '></td>
+        <td>' . $this->getPiktoImg($n) . '</td>
+        <td>' . $this->getPiktoInfo($n) . '</td>';
     
       $n++;
       $i++;
     }
     
-    $html .= "
+    $html .= '
       </tr>
     </table>
     </td>
@@ -250,11 +250,11 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	/**
 	 * Hauptfunktion zur Ausgabe des Verzeichnisses
 	 */
-	function main( $content, $conf )	{
+	public function main( $content, $conf )	{
 
     if ( $this->dbg == 10 ) {
     
-      echo 'DOCUMENT_ROOT = ['.$_SERVER['DOCUMENT_ROOT'].']<br />';
+      echo 'DOCUMENT_ROOT = [' . $_SERVER['DOCUMENT_ROOT'] . ']<br />';
 	
       $object = new ReflectionClass('tx_pobdir_pi1');
 
@@ -389,7 +389,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	}
 	
 	
-  function makeEditLink($action,$id='')	{
+  public function makeEditLink($action,$id='')	{
 
     switch($action)	{
     
@@ -398,7 +398,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
             $content = ($GLOBALS['TSFE']->fe_user->user['tx_pobdir_directory']) ? '<table cellpadding="7" cellspacing="0" border="0" width="100%"><tr><td align="right">' . $this->makeLink($this->pi_getLL('your_entry'),enter,'','','0') . '</td></tr></table>' : '';
                 break;
 
-        case "edit":
+        case 'edit':
                 
             $res  = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
             'belongsto',               // SELECT
@@ -418,7 +418,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	}
 	
 	
-  function makeDetail($id)	{
+  public function makeDetail($id)	{
 
     $id = intval($id);
     $result = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
@@ -467,22 +467,21 @@ class tx_pobdir_pi1 extends tslib_pibase {
     $markerArray['###WWW###'] = ($row['www']) ? '<a href="http://' . $row['www'] . '" target="_blank">' . $row['www'] . '</a>' : '';
     $mailto = $row['email'];                                                              
     
-    $markerArray['###EMAIL###'] = '<a style="cursor:pointer; color:#4A8FCA;" onclick="popupWindow(\'http://'.$_SERVER['SERVER_NAME'] . '/kontakt.php?v=' . $row['uid'] . '\'', 600, 700);">Buchungsanfrage</a>';		
+    $markerArray['###EMAIL###'] = '<a style="cursor:pointer; color:#4A8FCA;" onclick="popupWindow(\'http://' . $_SERVER['SERVER_NAME'] . '/kontakt.php?v=' . $row['uid'] . '\'', 600, 700);">Buchungsanfrage</a>';		
     
-		$markerArray['###BESCHREIBUNG###'] = nl2br(htmlentities($row['description'], ENT_QUOTES, $this->collation));
+    $markerArray['###BESCHREIBUNG###'] = nl2br(htmlentities($row['description'], ENT_QUOTES, $this->collation));
     $markerArray['###AUSSTATTUNG###'] = htmlentities($row['features'], ENT_QUOTES, $this->collation);
- 	  $markerArray['###PRICE###'] = nl2br(htmlentities($row['price'], ENT_QUOTES, $this->collation));
-	  $markerArray['###PREISINFO###'] = nl2br(htmlentities($row['priceinfo'], ENT_QUOTES, $this->collation));
-	  $markerArray['###PIKTOS###'] = $this->getPiktos($row['features']);
-	  $markerArray['###KATEGORIE###'] = $this->getKategorie($row['category']);
+    $markerArray['###PRICE###'] = nl2br(htmlentities($row['price'], ENT_QUOTES, $this->collation));
+    $markerArray['###PREISINFO###'] = nl2br(htmlentities($row['priceinfo'], ENT_QUOTES, $this->collation));
+    $markerArray['###PIKTOS###'] = $this->getPiktos($row['features']);
+    $markerArray['###KATEGORIE###'] = $this->getKategorie($row['category']);
 	  
-	  $text_personen = $row['capacity'] > 1 
+    $text_personen = $row['capacity'] > 1 
 	  ? ' f&uuml;r '.$row['capacity'].' Personen'
 	  : ' f&uuml;r 1 Person';
     $markerArray['###PERSONEN###'] = $text_personen;
 	  
-	  
-	  $markerArray['###WERBUNG###'] = $this->getWerbung($row['ads']);
+    $markerArray['###WERBUNG###'] = $this->getWerbung($row['ads']);
 
     $form = $this->piVars['sword'] ? true : false;
     $markerArray['###FOOTER###'] =  $this->makeDetailFooter($form);
@@ -540,7 +539,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	
 	
   
-  function getWerbung($ads) {
+  public function getWerbung($ads) {
               
     $html = '';
     
@@ -555,7 +554,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	
   }
   
-  function getWerbetext($id) {
+  public function getWerbetext($id) {
     
     $ressource  = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
       'ad',                        // SELECT
@@ -572,7 +571,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
   }
 	
 	  
-  function makeTop()	{
+  public function makeTop()	{
 	    
     $markerArray['###ALLE###'] = '<span style="margin-right:20px;">' . $this->makeButtonShowAll() . '</span>';
     
@@ -709,18 +708,18 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	
 	
   
-  function makeListheader() {
+  public function makeListheader() {
         
-    $markerArray["###SPALTE_1###"] = $this->pi_getLL("listheader_1");
-    $markerArray["###SPALTE_2###"] = $this->pi_getLL("listheader_2");
-    $markerArray["###SPALTE_3###"] = $this->pi_getLL("listheader_3");
-    $markerArray["###SPALTE_4###"] = $this->pi_getLL("listheader_4");
+    $markerArray['###SPALTE_1###'] = $this->pi_getLL('listheader_1');
+    $markerArray['###SPALTE_2###'] = $this->pi_getLL('listheader_2');
+    $markerArray['###SPALTE_3###'] = $this->pi_getLL('listheader_3');
+    $markerArray['###SPALTE_4###'] = $this->pi_getLL('listheader_4');
     
     return $this->cObj->substituteMarkerArrayCached($this->listheader,$markerArray,array(),array());
   
   }
 	
-	function makeBottom($modifier,$value)	{
+	public function makeBottom($modifier,$value)	{
 	
 		$markerArray['###SEITEN###'] = $this->make123($modifier, $value);
 		$content = $this->cObj->substituteMarkerArrayCached($this->bottom, $markerArray, array(), array());
@@ -736,9 +735,9 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	 * des aktuellen Buchstabens und des Anzeigemodus (Normal, Suche, Kategorie)
 	 */
 	
-  function makeABC($table, $column, $value)	{
+  public function makeABC($table, $column, $value)	{
 		
-    echo '----'.$value.'---';
+    echo '----' . $value . '---';
 		
     $alphabet=array(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z);
 		
@@ -782,7 +781,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	
 	
 	      // makeLink('',      'liste', 'city', $tempo['city'], $cache=1, $pointer=0)  
-  function makeLink( $string, $mode, $modifier, $value = '', $cache = 1, $pointer = 0, $city = '', $cat = '', $cap = 1 )	{
+  public function makeLink( $string, $mode, $modifier, $value = '', $cache = 1, $pointer = 0, $city = '', $cat = '', $cap = 1 )	{
 		
 		$over = array(
       'mode' => $mode, 
@@ -806,7 +805,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	 * Erzeugen der Seitenleiste in Abhängigkeit von aktueller Seite und zu übergebender Variable
 	 */	
 	
-	function make123($modifier, $value)	{
+	public function make123($modifier, $value)	{
     
     $ressource = $this->makeListQuery($modifier, $value, 1, true);
 				
@@ -838,7 +837,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	/**
 	 * Erzeugen der Query
 	 */		
-	function makeListQuery($modifier, $value, $count = 0, $no_limit = false)	{
+	public function makeListQuery($modifier, $value, $count = 0, $no_limit = false)	{
 	
 	  $this->internal['orderBy']           = 'stars DESC, name ASC';
 		$this->internal['orderByList']       = 'stars DESC, name ASC';
@@ -901,7 +900,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
     }
     
     if ( $anreise_abreise ) {
-      $addWhere .= "
+      $addWhere .= '
       AND uid NOT IN ( 
         SELECT entry_uid 
         FROM tx_pobdir_sperrzeiten 
@@ -930,7 +929,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
         $addWhere .= '
         AND (
           LEFT(features,' . (strlen($filter_ausstattung) + 1) . ') = "' . $filter_ausstattung . ',"
-          OR RIGHT(features,' . (strlen($filter_ausstattung)+1) . ') = ",'.$filter_ausstattung . '"
+          OR RIGHT(features,' . (strlen($filter_ausstattung) + 1) . ') = ",' . $filter_ausstattung . '"
           OR features LIKE "%,' . $filter_ausstattung . ',%"
         )';
       
@@ -944,15 +943,15 @@ class tx_pobdir_pi1 extends tslib_pibase {
       '*',                     // SELECT
       'tx_pobdir_v_entry',     // FROM
       'pid IN ('.$pidList.') AND deleted = 0 AND hidden = 0' . $addWhere, // WHERE
-      '',                                             // GROUP BY
-      'cat_sorting, stars DESC, name ASC',                            // ORDER BY
+      '',                             // GROUP BY
+      'cat_sorting, stars DESC, name ASC',                // ORDER BY
       $no_limit ? '' : $offset . ',' . $this->conf['pobdir_itemsPerPage']  // LIMIT
     );
 
 	  return $ressource;
 	}
 	
-	function dbDate($date = '') {
+	public function dbDate($date = '') {
     if($date && !is_a($date, 'stdClass') ) {
       if ( strpos($date, '.') ) {
         $dat = explode('.', $date);
@@ -971,7 +970,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
   }
 
 
-  function deDate( $date = '' ) {
+  public function deDate( $date = '' ) {
     if ( $date ) {
       if ( strpos($date,':') ) {
         $date = explode(' ', $date);
@@ -986,7 +985,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
   }
 	
 	
-	function makeDetailBackLink($search)	{
+	public function makeDetailBackLink($search)	{
 		
 		if( $this->piVars['modifier'] == 'search' ) {
       
@@ -1002,7 +1001,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	  return $code;
 	}
 	
-	function makeDetailFooter($form = false) {
+	public function makeDetailFooter($form = false) {
 	
     
     if ( $form ) {
@@ -1042,7 +1041,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
   }
 	
 	
-  function makeSearchbox($search)	{
+  public function makeSearchbox($search)	{
 		    
     $value = $this->piVars['modifier'] == 'search' ? $search : $this->search_default; 
 
@@ -1059,7 +1058,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	}
 	
 	
-	function makeButtonShowAll()	{
+	public function makeButtonShowAll()	{
 
 		$code = '<input type="button" value="' . $this->pi_getLL('showall') . '"  onclick="self.location.href="' . $GLOBALS['TSFE']->baseUrl . $this->makeLink('', 'liste', 'all') . '" class="tx_pobdir-pi1-small">';
 	
@@ -1067,7 +1066,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	}   
 	
 	
-  function makeButtonShowFree()	{
+  public function makeButtonShowFree()	{
 
 		$code = '<input type="button" value="' . $this->pi_getLL('showfree') . '" onclick="frm_showfree_submit();" class="tx_pobdir-pi1-small">';
 	
@@ -1075,7 +1074,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	} 
 	
 	
-	function makeJumper($modifier,$value)	{
+	public function makeJumper($modifier,$value)	{
 		
 		$pidlist = $this->pi_getPidlist($this->conf['pidlist'], $this->conf['recursive']);  
     
@@ -1128,17 +1127,17 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	/**
 	 * @deprecated	
 	 */	
-	function makePLZ($modifier,$value)	{
+	public function makePLZ($modifier,$value)	{
 	}
 	
 	/**
 	 * @deprecated
 	 */   	
-  function makeSelectOrt($modifier,$value)	{
+  public function makeSelectOrt($modifier,$value)	{
 	}
 	
 	
-	function getMaxPersonenInKategorie($catid = null) {
+	public function getMaxPersonenInKategorie($catid = null) {
 	
 	  $pidlist = $this->pi_getPidlist($this->conf['pidlist'],$this->conf['recursive']);
 	
@@ -1162,7 +1161,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
   }
 	
 	
-	function makeSelectPersonen()	{
+	public function makeSelectPersonen()	{
 		
 		 
 		$max = $this->getMaxPersonenInKategorie($this->piVars['cat']);
@@ -1204,7 +1203,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	}
 	
 	
-	function getImage($image, $conf, $w=120, $lightbox=true)	{
+	public function getImage($image, $conf, $w=120, $lightbox=true)	{
 	  
     $this->conf = $conf;
 	  $imageConfig = $this->conf['image.'];
@@ -1217,7 +1216,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
     return $html;
 	}
 	
-	function getImageGallery($image, $conf, $h='120') {
+	public function getImageGallery($image, $conf, $h='120') {
 	    
     $this->conf = $conf;
 	  $imageConfig = $this->conf['image.'];
@@ -1229,12 +1228,12 @@ class tx_pobdir_pi1 extends tslib_pibase {
 
   }
 	
-	function makeError($string)	{
+	public function makeError($string)	{
 		$this->fehler=1;
 		return '<font color="red">' . $string . '</font>';
 	}
 
-	function makeForm($mode='enter',$modifier='first',$id='')	{	
+	public function makeForm($mode='enter',$modifier='first',$id='')	{	
 	
 		//Formular bauen			
 		$this->listeTemplateCode = $this->cObj->fileResource($this->conf['pobdir_templateFile']);
@@ -1366,14 +1365,14 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	return $return;	
 	}	
 	
-	function makeHidden($hidden)	{
+	public function makeHidden($hidden)	{
 		while(list($key,$value) = each($hidden))	{
 			$code .= '<input type="hidden" name="tx_pobdir_pi1[' . $key . ']" value="' . $value . '">';
 		}
 	return $code;
 	}
 	
-	function evalForm($markerArray)	{
+	public function evalForm($markerArray)	{
 	
 		$markerArray['###NAME###'] = ($this->piVars[name]) ? $markerArray['###NAME###'] : $this->makeError($markerArray['###NAME###']);			
 		$markerArray['###STREET###'] = ($this->piVars[street]) ? $markerArray['###STREET###'] : $this->makeError($markerArray['###STREET###']);	
@@ -1391,7 +1390,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	return $markerArray;
 	}
 	
-	function evalImage()	{
+	public function evalImage()	{
 		//Bildtyp checken
 		$bildtypen = array('gif','jpg','png');
 		
@@ -1414,7 +1413,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	return $type;
 	}
 	
-	function storeDB($image)	{
+	public function storeDB($image)	{
 	
 		$query='INSERT INTO tx_pobdir_entry (pid,tstamp,crdate,cruser_id,name,street,zip,city,tel,fax,email,www,profile,image,category,belongsto) 
 				VALUES ("' . $GLOBALS['TSFE']->page[uid] . '","' . time() . '","' . time() . '",1,"' . $this->piVars[name] . '","' . $this->piVars[street] . '","' . $this->piVars[zip] . '","' . $this->piVars[city] . '","' . $this->piVars[tel] . '","' . $this->piVars[fax] . '","' . $this->piVars[email] . '","' . $this->piVars[www] . '","' . strip_tags($this->piVars[profile]) . '","' . $image . '","' . $this->piVars[category] . '","' . $GLOBALS['TSFE']->fe_user->user[ses_userid] . '")';
@@ -1427,7 +1426,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	return $id;
 	}
 	
-	function updateDB($image,$id)	{
+	public function updateDB($image,$id)	{
 	
 		$query =	'UPDATE tx_pobdir_entry SET 
 					name = "' . $this->piVars[name] . '",
@@ -1448,13 +1447,13 @@ class tx_pobdir_pi1 extends tslib_pibase {
 		$res = mysql (TYPO3_db, 'DELETE FROM cache_pages WHERE page_id = '.$GLOBALS['TSFE']->page['uid']);
 	}
 	
-	function deleteFromDB($id)	{
+	public function deleteFromDB($id)	{
 		$query = 'DELETE FROM tx_pobdir_entry WHERE uid = ' . $id;
 		$res = mysql(TYPO3_db, $query);
 		$res = mysql (TYPO3_db, 'DELETE FROM cache_pages WHERE page_id = '.$GLOBALS['TSFE']->page['uid']);
 	}
 	
-	function storeImage()	{
+	public function storeImage()	{
 
 		if($GLOBALS[HTTP_POST_FILES][tx_pobdir_pi1][name][image])	{
 
@@ -1469,7 +1468,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
 	
 	}
 	
-	function makeCategory($id)	{
+	public function makeCategory($id)	{
 		
 		$pidlist = $this->pi_getPidlist($this->conf['pidlist'], $this->conf['recursive']);
     
@@ -1498,7 +1497,7 @@ class tx_pobdir_pi1 extends tslib_pibase {
     
 	}
 
-	function makeSuccess($goto)	{
+	public function makeSuccess($goto)	{
 		
 		$success = $this->cObj->getSubpart($this->listeTemplateCode, '###SUCCESSVIEW###');
 		$markerArray['###DOTTED###'] = $this->pi_classParam('dotted');
